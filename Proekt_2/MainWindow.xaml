@@ -1,0 +1,111 @@
+﻿<Window x:Class="ModbusDeviceControl.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Управление Modbus-устройством" 
+        Height="683" 
+        Width="634"
+        FontFamily="Segoe UI">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+
+        <!-- Секция подключения -->
+        <GroupBox Grid.Row="0" Header="Подключение к устройству" Padding="10">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Label Content="IP:" VerticalAlignment="Center"/>
+                <TextBox x:Name="txtIP" Text="192.168.0.1" Width="100" Margin="5,0"/>
+
+                <Label Content="Порт:" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                <TextBox x:Name="txtPort" Text="502" Width="50" Margin="5,0"/>
+
+                <Button x:Name="btnConnect" Content="Подключиться" Width="90" Margin="20,0,5,0"
+                        Click="BtnConnect_Click"/>
+                <Button x:Name="btnDisconnect" Content="Отключиться" Width="90" Margin="5,0"
+                        Click="BtnDisconnect_Click"/>
+
+                <TextBlock x:Name="txtStatus" Text="Не подключено" Margin="20,0" 
+                           Foreground="Red" VerticalAlignment="Center"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Информация об устройстве -->
+        <GroupBox Grid.Row="1" Header="Информация об устройстве" Padding="10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="txtPinCount" Text="Доступные пины: 0   " FontWeight="Bold"/>
+                <TextBlock x:Name="txtStrobeCount" Text="Доступные стробы: 0" FontWeight="Bold"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Управление -->
+        <GroupBox Grid.Row="2" Header="Управление" Padding="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                    <Label Content="Пин:"/>
+                    <Label Content="Строб:"/>
+                    <Label Content="Длительность (мс):"/>
+                    <Label Content="Частота (Гц):" Height="27"/>
+                    <Label Content="Скважность (%):" Margin="0,10"/>
+                    <Label Content="Тип строба:"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right" Width="415">
+                    <!-- Выбор пина -->
+                    <ComboBox x:Name="comboPins" Width="150" Margin="0,0,0,5"/>
+
+                    <!-- Выбор стробы -->
+                    <ComboBox x:Name="comboStrobes" Width="150" Margin="0,0,0,5"/>
+
+                    <!-- Параметры сигнала -->
+                    <StackPanel Orientation="Horizontal" Margin="0,5" Height="24">
+                        <TextBox x:Name="txtDuration" Width="100"/>
+                        <Button x:Name="btnSendSignal" Content="Отправить сигнал" Margin="10,0" Width="112"
+                                Click="BtnSendSignal_Click"/>
+                        <Button x:Name="btnReset" Content="Сбросить" Width="70" Click="BtnReset_Click"/>
+                    </StackPanel>
+
+                    <TextBox x:Name="txtFreq" Width="100" Margin="0,5"/>
+
+                    <!-- ComboBox вместо TextBox для скважности -->
+                    <ComboBox x:Name="comboDuty" Width="100" Margin="0,10">
+                        <ComboBoxItem Content="10" />
+                        <ComboBoxItem Content="25" />
+                        <ComboBoxItem Content="50" />
+                        <ComboBoxItem Content="75" />
+                        <ComboBoxItem Content="90" />
+                        <ComboBoxItem Content="100" />
+                    </ComboBox>
+                    <ComboBox x:Name="comboStrobeType" Width="150"/>
+
+                    <!-- Тип строба -->
+
+                    <StackPanel Orientation="Horizontal" Margin="0,15">
+                        <Button x:Name="btnStartStrobe" Content="Старт строба" Width="100"
+                                Click="BtnStartStrobe_Click"/>
+                        <Button x:Name="btnStopStrobe" Content="Стоп строба" Width="100" Margin="10,0"
+                                Click="BtnStopStrobe_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <!-- Журнал -->
+        <GroupBox Grid.Row="3" Header="Журнал" Padding="10">
+            <TextBox x:Name="txtLog"
+                     IsReadOnly="True" 
+                     VerticalScrollBarVisibility="Auto" 
+                     HorizontalScrollBarVisibility="Auto"
+                     TextWrapping="Wrap"
+                     Text="Журнал событий..."/>
+        </GroupBox>
+    </Grid>
+</Window>
